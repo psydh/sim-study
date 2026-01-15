@@ -8,7 +8,7 @@ GOOGLE_API_KEY = "AIzaSyBVLA4WTbPf-o_gPpwCUeAwuPq5b94XS5I"
 try:
     genai.configure(api_key=GOOGLE_API_KEY)
     # 모델 이름을 'models/gemini-1.5-flash'로 전체 경로를 적어줍니다.
-    model = genai.GenerativeModel(model_name='models/gemini-1.5-flash')
+    model = genai.GenerativeModel('gemini-1.5-flash')
 except Exception as e:
     st.error(f"설정 중 오류가 발생했습니다: {e}")
 
@@ -84,4 +84,5 @@ elif st.session_state.step == 3:
         st.write(f"**학습자:** {st.session_state.user_name}")
         st.write(f"**사정 주제:** {st.session_state.topic}")
         st.write(f"**작성 내용:** {mse_result}")
+
 
