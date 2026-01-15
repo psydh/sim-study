@@ -2,7 +2,7 @@ import streamlit as st
 import google.generativeai as genai
 
 # --- 1. 본인의 API 키 입력 (따옴표 안에 꼭 넣으세요) ---
-GOOGLE_API_KEY = "여기에_교수님의_키를_넣으세요" 
+GOOGLE_API_KEY = "AIzaSyBVLA4WTbPf-o_gPpwCUeAwuPq5b94XS5I" 
 
 # API 설정 및 모델 로드 (가장 정확한 경로 지정)
 try:
@@ -84,3 +84,4 @@ elif st.session_state.step == 3:
         st.write(f"**학습자:** {st.session_state.user_name}")
         st.write(f"**사정 주제:** {st.session_state.topic}")
         st.write(f"**작성 내용:** {mse_result}")
+
