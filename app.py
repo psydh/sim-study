@@ -5,7 +5,7 @@ import google.generativeai as genai
 GOOGLE_API_KEY = "AIzaSyBVLA4WTbPf-o_gPpwCUeAwuPq5b94XS5I" 
 
 genai.configure(api_key=GOOGLE_API_KEY)
-model = genai.GenerativeModel('gemini-1.5-flash')
+model = genai.GenerativeModel('models/gemini-1.5-flash')
 
 st.set_page_config(page_title="정신간호 MSE 실습 (AI)", layout="centered")
 
@@ -71,3 +71,4 @@ elif st.session_state.step == 3:
         st.write(f"학생: {st.session_state.user_name}")
         st.write(f"작성 내용: {mse_result}")
         st.balloons()
+
