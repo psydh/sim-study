@@ -2,7 +2,7 @@ import streamlit as st
 import google.generativeai as genai
 
 # --- 1. 본인의 API 키 입력 (꼭 다시 넣으세요!) ---
-GOOGLE_API_KEY = "여기에_교수님의_키를_넣으세요" 
+GOOGLE_API_KEY = "AIzaSyBVLA4WTbPf-o_gPpwCUeAwuPq5b94XS5I" 
 
 genai.configure(api_key=GOOGLE_API_KEY)
 model = genai.GenerativeModel('gemini-pro')
@@ -76,3 +76,4 @@ elif st.session_state.step == 3:
         st.write(f"**학습자:** {st.session_state.user_name}")
         st.write(f"**작성한 MSE 사정:** {mse_result}")
         st.balloons()
+
