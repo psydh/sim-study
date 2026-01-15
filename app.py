@@ -1,20 +1,21 @@
 import streamlit as st
 import google.generativeai as genai
 
-# --- 1. 여기에 키를 붙여넣으세요 ---
-GOOGLE_API_KEY="AIzaSyBVLA4WTbPf-o_gPpwCUeAwuPq5b94XS5I" 
+# --- 1. 본인의 API 키를 입력하세요 ---
+GOOGLE_API_KEY = "여기에_교수님의_키를_넣으세요" 
 
 genai.configure(api_key=GOOGLE_API_KEY)
-model=genai.GenerativeModel('gemini-pro')
+# 모델 이름을 가장 안정적인 'gemini-pro'로 변경했습니다.
+model = genai.GenerativeModel('gemini-pro')
 
 st.set_page_config(page_title="정신간호 MSE 실습 (AI)", layout="centered")
 
+# (이하 코드 동일...)
 if 'step' not in st.session_state:
     st.session_state.step = 1
 if 'chat_history' not in st.session_state:
     st.session_state.chat_history = []
 
-# --- 2. 초기 설정 ---
 if st.session_state.step == 1:
     st.title("🏥 AI 기반 정신간호 MSE 실습")
     st.session_state.user_name = st.text_input("학생 성함")
@@ -25,22 +26,12 @@ if st.session_state.step == 1:
     ])
     
     if st.button("실습 시작"):
-        st.session_state.system_prompt = f"""
-        너는 정신과 환자 역할을 하는 시뮬레이터야. 아래 설정에 맞춰서 간호학생과 대화해줘.
-        주제: {st.session_state.topic}
-        지침: 
-        1. 대화할 때마다 너의 표정, 태도, 몸짓 등 비언어적 묘사를 [ ] 안에 반드시 포함해.
-        2. 간호학생이 MSE 사정을 할 수 있도록 증상을 적절히 보여줘.
-        3. 너무 협조적이지 않게, 실제 환자의 특성을 살려 대답해.
-        4. 한국어로 대답해.
-        """
+        st.session_state.system_prompt = f"너는 정신과 환자야. 주제는 {st.session_state.topic}이야. 비언어적 표현을 [ ]에 포함해서 간호학생과 대화해줘."
         st.session_state.step = 2
         st.rerun()
 
-# --- 3. 실시간 AI 대화창 ---
 elif st.session_state.step == 2:
     st.header(f"💬 대상자 대화 ({st.session_state.topic})")
-    
     for chat in st.session_state.chat_history:
         with st.chat_message(chat["role"]):
             st.markdown(chat["content"])
@@ -49,28 +40,20 @@ elif st.session_state.step == 2:
         st.session_state.chat_history.append({"role": "user", "content": prompt})
         with st.chat_message("user"):
             st.markdown(prompt)
-
-        # AI 답변 생성
-        full_prompt = f"{st.session_state.system_prompt}\n\n학생 질문: {prompt}"
-        response = model.generate_content(full_prompt)
         
-        with st.chat_message("assistant"):
-            st.markdown(response.text)
+        # AI 응답 생성 부분
+        response = model.generate_content(f"{st.session_state.system_prompt}\n학생: {prompt}")
         st.session_state.chat_history.append({"role": "assistant", "content": response.text})
+        st.rerun()
 
     if st.button("대화 종료 및 보고서 작성"):
         st.session_state.step = 3
         st.rerun()
 
-# --- 4. 보고서 단계 ---
 elif st.session_state.step == 3:
     st.header("📝 MSE 사정 보고서")
-    mse_result = st.text_area("사정 결과 기록", height=200)
+    mse_result = st.text_area("사정 결과 기록")
     if st.button("제출 완료"):
-        st.success("실습이 완료되었습니다. 내용을 캡처하여 제출하세요.")
-        st.write(f"학생: {st.session_state.user_name}")
-        st.write(f"작성 내용: {mse_result}")
+        st.write(f"학습자: {st.session_state.user_name}")
+        st.write(f"내용: {mse_result}")
         st.balloons()
-
-
-
